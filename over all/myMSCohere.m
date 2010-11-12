@@ -61,7 +61,7 @@ for iTask = 1: 7
     
     %%% In that care no exist
     if bNonExistFile == 1
-        break;
+        continue;
     end
 
     %%% Main Process
