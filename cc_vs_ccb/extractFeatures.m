@@ -13,9 +13,21 @@ switch study
             load('ctrl_ccb_syncEEG.mat');
         end
     case 't1'
-        
+        if subtask == 'sc1'
+            load('t1_sc1_syncEEG.mat');
+        elseif subtask == 'sb1'
+            load('t1_scb1_syncEEG.mat');
+        else
+            load('t1_nscb1_syncEEG.mat');
+        end
     case 't2'
-        
+        if subtask == 'sc2'
+            load('t2_sc2_syncEEG.mat');
+        elseif subtask == 'sb2'
+            load('t2_scb2_syncEEG.mat');
+        else
+            load('t2_nscb2_syncEEG.mat');
+        end
     otherwise
         warning('Please input the study')
 end
