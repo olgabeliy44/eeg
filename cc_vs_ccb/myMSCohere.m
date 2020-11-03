@@ -43,8 +43,15 @@ end
 figure
 for e_k = 1:channelCnt
     
-    x = signal_a(e_k, :);
-    y = signal_b(e_k, :);
+    x = signal_a(:, e_k);
+    y = signal_b(:, e_k);
+    
+    x = x';
+    y = y';
+    
+    minV = min(length(x), length(y));
+    x = x(1:minV);
+    y = y(1:minV);
     
     [Cxy,f] = mscohere(x,y,[],[],[],Fs);
     
