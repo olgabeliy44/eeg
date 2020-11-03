@@ -47,36 +47,16 @@ for e_k = 1:channelCnt
     y = signal_b(e_k, :);
     
     [Cxy,f] = mscohere(x,y,[],[],[],Fs);
-
-    thresh = 0.75;
-    [pks,locs] = findpeaks(Cxy,'MinPeakHeight',thresh);
-    MatchingFreqs = f(locs)
-    
-%     nfft = 2^nextpow2(N);
-%     noverlap = nfft / 2;
-%     
-%     [cxy,fc] = mscohere(x,y,hann(nfft),noverlap,nfft);
-    
-    %% Compare the Frequency Content of Two Signals
-    [P1,f1] = periodogram(x,[],[],Fs,'power');
-    [P2,f2] = periodogram(y,[],[],Fs,'power');
     
     elements(e_k).COHERE = Cxy;
     %% Grid
     subplot(channelCnt/4, 4, e_k)
-    plot(f,Cxy)
-    ax = gca;
-    hold on
-    plot(f1,P1,'k')
-    hold on
-    plot(f2,P2,'r')
+    plot(f,Cxy, '-r');
     hold on
     set(gca, 'FontName', 'Times New Roman', 'FontSize', 7)
-    title(sprintf('Coherence Estimate at channel (%d)of %s , %s', e_k, signalA, signalB))
+    title(sprintf('Channel (%d)of %s , %s', e_k, signalA, signalB))
     xlabel('Frequency (Hz)')
-    ax.XTick = MatchingFreqs;
-    ax.YTick = thresh;
-    axis([0 Fs 0 2])
+    ylabel('Magnitude-squared Coherence')
 end
 
 cohere = elements;

@@ -46,43 +46,52 @@ for e_k = 1:channelCnt
     
     x = signal_a(e_k, :);
     y = signal_b(e_k, :);
-    % represent the signals as column-vectors
-%     x = x(:);
-%     y = y(:);
+    % Length of signal
+    npts = length(x);
 
-    % remove the DC component of the signals
+    % remove bias
     x = x - mean(x);
     y = y - mean(y);
 
-    % signals length calculation
-    xlen = length(x);
-    ylen = length(y);
+    % take the FFT
+    X=fft(x);
+    Y=fft(y);
+    % Calculate the number of unique points
+    NumUniquePts = ceil((npts+1)/2);
 
-    % windows generation
-    xwin = hanning(xlen, 'periodic');
-    ywin = hanning(ylen, 'periodic');
-
-    % perform fft on the signals
-    X = fft(x.*xwin); 
-    Y = fft(y.*ywin);
-
-    % fundamental frequency detection
-    [~, indx] = max(abs(X));
-    [~, indy] = max(abs(Y));
-
-    % phase difference estimation
-    PhDiff = angle(Y(indy)) - angle(X(indx)); 
+    f = (0:NumUniquePts-1)*Fs/npts;
     
-    elements(e_k).PHDIFF = PhDiff;
+    % Determine the max value and max point.
+    [mag_x, idx_x] = max(imag(X));
+    [mag_y, idx_y] = max(imag(Y));
+    % determine the phase difference
+    % at the maximum point.
+    px = angle(X(idx_x));
+    py = angle(Y(idx_y));
+    phase_lag = py - px;
+    % determine the amplitude scaling
+    amplitude_ratio = mag_y/mag_x;
+
+    elements(e_k).PHDIFF = phase_lag;
+    elements(e_k).AMPL_RATIO = amplitude_ratio;
     
     %% Grid
     subplot(channelCnt/4, 4, e_k)
-    plot(signal_a(e_k, :), 'b', 'LineWidth', 1.5)
-    grid on
+%     plot(f,angle(X(1:NumUniquePts)));
+     plot(signal_a(e_k, :), 'b', 'LineWidth', 1)
     hold on
-    plot(signal_b(e_k, :), 'r', 'LineWidth', 1.5)
+     plot(signal_b(e_k, :), 'r', 'LineWidth', 1)
+%     plot(f,angle(Y(1:NumUniquePts)));
     set(gca, 'FontName', 'Times New Roman', 'FontSize', 7)
-    title(sprintf('Channel (%d)of %s , %s', e_k, signalA, signalB))
+    title(sprintf('Company (%d)of %s , %s', e_k, signalA, signalB))
+    text(1,max(y)*3/5,sprintf('Max phase lag: %.3f\n,Amplitude ratio: %.3f', ...
+        phase_lag, amplitude_ratio)...
+        ,'Color','black','FontSize',7)
+    
+    ylabel('Amplitude');
+    
     legend('First signal', 'Second signal')
 end
+
+PhDiff = elements;
 
