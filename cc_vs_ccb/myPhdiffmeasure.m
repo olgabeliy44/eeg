@@ -91,7 +91,7 @@ for e_k = 1:channelCnt
      plot(signal_b(:, e_k), 'r', 'LineWidth', 1)
 %     plot(f,angle(Y(1:NumUniquePts)));
     set(gca, 'FontName', 'Times New Roman', 'FontSize', 7)
-    title(sprintf('Company (%d)of %s , %s', e_k, signalA, signalB))
+    title(sprintf('Channel (%d)of %s , %s', e_k, signalA, signalB))
     text(1,max(y),sprintf('Max phase lag: %.3f\n,Amplitude ratio: %.3f', ...
         phase_lag, amplitude_ratio)...
         ,'Color','black','FontSize',7)
