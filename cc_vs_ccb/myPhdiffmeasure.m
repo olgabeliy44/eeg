@@ -44,8 +44,16 @@ elements = struct();
 figure
 for e_k = 1:channelCnt
     
-    x = signal_a(e_k, :);
-    y = signal_b(e_k, :);
+    x = signal_a(:, e_k);
+    y = signal_b(:, e_k);
+    
+    x = x';
+    y = y';
+    
+    minV = min(length(x), length(y));
+    x = x(1:minV);
+    y = y(1:minV);
+    
     % Length of signal
     npts = length(x);
 
@@ -78,13 +86,13 @@ for e_k = 1:channelCnt
     %% Grid
     subplot(channelCnt/4, 4, e_k)
 %     plot(f,angle(X(1:NumUniquePts)));
-     plot(signal_a(e_k, :), 'b', 'LineWidth', 1)
+     plot(signal_a(:, e_k), 'b', 'LineWidth', 1)
     hold on
-     plot(signal_b(e_k, :), 'r', 'LineWidth', 1)
+     plot(signal_b(:, e_k), 'r', 'LineWidth', 1)
 %     plot(f,angle(Y(1:NumUniquePts)));
     set(gca, 'FontName', 'Times New Roman', 'FontSize', 7)
     title(sprintf('Company (%d)of %s , %s', e_k, signalA, signalB))
-    text(1,max(y)*3/5,sprintf('Max phase lag: %.3f\n,Amplitude ratio: %.3f', ...
+    text(1,max(y),sprintf('Max phase lag: %.3f\n,Amplitude ratio: %.3f', ...
         phase_lag, amplitude_ratio)...
         ,'Color','black','FontSize',7)
     

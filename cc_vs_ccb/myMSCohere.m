@@ -53,7 +53,7 @@ for e_k = 1:channelCnt
     x = x(1:minV);
     y = y(1:minV);
     
-    [Cxy,f] = mscohere(x,y,[],[],[],Fs);
+    [Cxy,f] = mscohere(x,y,[],50,[],Fs);
     
     elements(e_k).COHERE = Cxy;
     %% Grid
