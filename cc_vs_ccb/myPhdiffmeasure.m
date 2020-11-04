@@ -70,8 +70,8 @@ for e_k = 1:channelCnt
     f = (0:NumUniquePts-1)*Fs/npts;
     
     % Determine the max value and max point.
-    [mag_x, idx_x] = max(imag(X));
-    [mag_y, idx_y] = max(imag(Y));
+    [mag_x, idx_x] = max(X);
+    [mag_y, idx_y] = max(Y);
     % determine the phase difference
     % at the maximum point.
     px = angle(X(idx_x));
@@ -86,19 +86,18 @@ for e_k = 1:channelCnt
     %% Grid
     subplot(channelCnt/4, 4, e_k)
 %     plot(f,angle(X(1:NumUniquePts)));
-     plot(signal_a(:, e_k), 'b', 'LineWidth', 1)
+    plot(x, 'b', 'LineWidth', 1)
     hold on
-     plot(signal_b(:, e_k), 'r', 'LineWidth', 1)
+    plot(y, 'y', 'LineWidth', 1)
 %     plot(f,angle(Y(1:NumUniquePts)));
+    hold on
+    text(0,0,sprintf('Max phase lag: %.3f\n,Amplitude ratio: %.3f', ...
+        phase_lag, amplitude_ratio)...
+        ,'Color','red','FontSize',7)
     set(gca, 'FontName', 'Times New Roman', 'FontSize', 7)
     title(sprintf('Channel (%d)of %s , %s', e_k, signalA, signalB))
-    text(1,max(y),sprintf('Max phase lag: %.3f\n,Amplitude ratio: %.3f', ...
-        phase_lag, amplitude_ratio)...
-        ,'Color','black','FontSize',7)
-    
     ylabel('Amplitude');
-    
-    legend('First signal', 'Second signal')
+    legend('2 signal', '1 signal')
 end
 
 PhDiff = elements;
