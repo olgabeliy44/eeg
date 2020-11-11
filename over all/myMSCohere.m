@@ -100,6 +100,10 @@ for iTask = 1: 7
         xlabel('Frequency (Hz)')
         ylabel('Magnitude-squared Coherence')
     end
+    
+    fileName = strcat(sprintf('Coherence between %s, %s at Task(%s)',...
+            signalA, signalB, arrTasks{iTask}), '.pdf');
+    print(fileName, '-dpdf', '-r2000', '-fillpage');
 
 end
 
