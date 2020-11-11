@@ -115,9 +115,9 @@ for iTask = 1: 7
         legend('2 signal', '1 signal')
     end
     
-    fileName = strcat(sprintf('%s, %s at task(%s)', ...
-            signalA, signalB, arrTasks{iTask}), '.pdf');
-    print(fileName, '-dpdf', '-r2000', '-fillpage');
+%     fileName = strcat(sprintf('%s, %s at task(%s)', ...
+%             signalA, signalB, arrTasks{iTask}), '.pdf');
+%     print(fileName, '-dpdf', '-r2000', '-fillpage');
 end
 
 

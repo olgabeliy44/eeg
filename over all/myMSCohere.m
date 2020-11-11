@@ -45,8 +45,8 @@ for iTask = 1: 7
         try
             load(strFilePath);
         catch ME
-            elements(iTask).COHERE = 0;
-            elements(iTask).COHERE_1_2 = 0;
+            elements(iTask).COHERE(1:channelCnt) = 0;
+            elements(iTask).COHERE_1_2(1:channelCnt) = 0;
             warning(strcat('Unable to read the EEG file', strFilePath));
             bNonExistFile = 1;
             break;
@@ -101,9 +101,9 @@ for iTask = 1: 7
         ylabel('Magnitude-squared Coherence')
     end
     
-    fileName = strcat(sprintf('Coherence between %s, %s at Task(%s)',...
-            signalA, signalB, arrTasks{iTask}), '.pdf');
-    print(fileName, '-dpdf', '-r2000', '-fillpage');
+%     fileName = strcat(sprintf('Coherence between %s, %s at Task(%s)',...
+%             signalA, signalB, arrTasks{iTask}), '.pdf');
+%     print(fileName, '-dpdf', '-r2000', '-fillpage');
 
 end
 
